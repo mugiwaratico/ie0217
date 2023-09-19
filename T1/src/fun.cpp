@@ -18,7 +18,7 @@ void hacerUnaPregunta(PreguntaRespuesta preguntas[], int tamano) {
     for (int i = 0; i < tamano; i++) {
         if (pregunta.find(preguntas[i].pregunta) != std::string::npos) {
             std::cout << "Respuesta breve: " << preguntas[i].respuestaBreve << std::endl;
-            std::cout << "¿Desea obtener más información? (s/n): ";
+            std::cout << "Desea obtener más información? (s/n): ";
             std::string opcion;
             std::getline(std::cin, opcion);
             if (opcion == "s") {
