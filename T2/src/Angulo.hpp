@@ -1,6 +1,8 @@
 #ifndef ANGULO_H
 #define ANGULO_H
 
+using namespace std;
+
 class Angulo {
 private:
   int grados;
