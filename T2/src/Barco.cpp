@@ -2,7 +2,7 @@
 #include <vector>
 #include "Barco.hpp"
 
-Barco::Barco() : latitud(0, 0.0, 'N'), longitud(0, 0.0, 'E') {
+Barco::Barco() : latitud(0, 0.0, 'S'), longitud(0, 0.0, 'W') {
 }
 
 void Barco::ingresarCoordenadas() {

@@ -51,7 +51,6 @@ int main() {
         } else {
           std::cout << "Flota: " << std::endl;
           for (const Barco& barco : flota) {
-            barco.mostrarInformacion();
             std::cout << std::endl;
           }
         }
