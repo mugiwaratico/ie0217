@@ -1,8 +1,13 @@
+
 class Restaurante:
-    def __init__(self, nombre, tipo_cocina):
+    def __init__(self):
+        self.__nombre = ""
+        self.__tipo_cocina = ""
+
+    '''def __init__(self, nombre, tipo_cocina):
         self.__nombre = nombre
-        self.__tipo_cocina = tipo_cocina
-    
+        self.__tipo_cocina = tipo_cocina'''
+
     def get_nombre(self):
         return self.__nombre
     
@@ -16,5 +21,6 @@ class Restaurante:
         self.__tipo_cocina = tipo_cocina
     
     def describe_restaurante(self):
-        print(f"Restaurante: {self.__nombre}")
+        print(f"Nombre: {self.__nombre}")
         print(f"Tipo de cocina: {self.__tipo_cocina}")
+
