@@ -53,22 +53,23 @@ scaled_data = scaler.fit_transform(data)
 
 #Grafica de los datos
 
-
+'''
 plt.plot(data['Anho'],data['Cantidad'])
 plt.xlabel('Cantidad')
 plt.ylabel('Anho')
 plt.title('Tasa de muertes infantiles anual por cada 1000 nacimientos en Costa Rica')
 plt.show()
-
+'''
 
 
 # Seleccion numero de clusters
+'''
 inertia = []
 for k in range(1,11):
     kmeans = KMeans(n_clusters=k, random_state = 42)
     kmeans.fit(scaled_data)
     inertia.append(kmeans.inertia_)
-
+'''
 # Grafica metodo del codo
 '''
 plt.plot(range(1,11), inertia, marker = 'o')
@@ -77,3 +78,31 @@ plt.xlabel('Numero de Clusters (k)')
 plt.ylabel('Inercia')
 plt.show()
 '''
+
+# Basado en la grafica anterior se asume num de cluster = 3
+
+kmeans = KMeans(n_clusters=3, random_state = 42)
+cluster_labels = kmeans.fit_predict(scaled_data)
+
+# Se agregan las etiquetas de cluster al conjunto de datos original
+data['Cluster'] = cluster_labels
+
+# Analisis de segmentos
+segment_analysis = data.groupby('Cluster').mean(numeric_only=True)
+
+
+# Visualizacion de segmentos
+plt.figure(figsize=(12, 6))
+
+for cluster in range(3):
+    plt.scatter(data[data['Cluster'] == cluster]['Anho'],
+                data[data['Cluster'] ==  cluster]['Cantidad'],
+                label=f'Cluster {cluster}')
+    
+plt.title('Segmentacion de muertes por Cantidad y anho')
+plt.xlabel('Anho')
+plt.ylabel('Cantidad')
+plt.legend()
+plt.xticks(fontsize=4)
+plt.show()
+
