@@ -1,19 +1,79 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 
-data = pd.read_csv('T1.csv')
+data = pd.read_csv('T1.csv',index_col=0)
 
+#print(data.head())
+
+"""
+
+#Limpieza de datos, se verifican datos nulos o duplicados
 print(data.head()) # Muestra las primeras filas del DataFrame
 print(data.info()) # Muestra información sobre las columnas y tipos de datos
-print(data.describe())
+#print(data.describe()) # Muestra estadísticas descriptivas de las columnas numéricas
 
-print("\n --------\n",data.isnull().sum()) # Muestra la cantidad de valores faltantes por columna
+print("\n -------- Valores faltantes: ",data.isnull().sum()) # Muestra la cantidad de valores faltantes por columna
 
-print("\n --------\n", data.duplicated().sum()) # Muestra la cantidad de registros duplicados
+print("\n -------- Registros duplicados: ", data.duplicated().sum()) # Muestra la cantidad de registros duplicados
+
 
 data = data.dropna() # Elimina las filas con valores faltantes 
 
 data = data.drop_duplicates() # Elimina los registros duplicados
 
 data.to_csv('datos_limpios.csv', index=False) # Guarda los datos limpios en un archivo CSV
+
+
+"""
+
+#Para este ejercicio extraigo los datos de Costa Rica y genero una variable que contenga estos
+
+
+
+
+#Elimino columnas innecesarias y acomodo el dataframe
+data = data.drop(['Country Code','Indicator Name','Indicator Code'], axis=1)
+
+data = data.transpose()
+
+data = data.reset_index()
+
+data.columns= ['Anho', 'Cantidad']
+
+#print(data.head(5))
+
+
+#Escalamiento de datos
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(data)
+
+
+#Grafica de los datos
+
+
+plt.plot(data['Anho'],data['Cantidad'])
+plt.xlabel('Cantidad')
+plt.ylabel('Anho')
+plt.title('Tasa de muertes infantiles anual por cada 1000 nacimientos en Costa Rica')
+plt.show()
+
+
+
+# Seleccion numero de clusters
+inertia = []
+for k in range(1,11):
+    kmeans = KMeans(n_clusters=k, random_state = 42)
+    kmeans.fit(scaled_data)
+    inertia.append(kmeans.inertia_)
+
+# Grafica metodo del codo
+'''
+plt.plot(range(1,11), inertia, marker = 'o')
+plt.title("Metodo del codo para seleccion de k")
+plt.xlabel('Numero de Clusters (k)')
+plt.ylabel('Inercia')
+plt.show()
+'''
