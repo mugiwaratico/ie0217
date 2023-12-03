@@ -4,7 +4,18 @@
 
 A partir de la plataforma en el enlace: https://www.kaggle.com/datasets?tags=11105-Education
 
-Se obtuvo en conjunto de datos, en este caso se hizo analisis del que lleva el titulo "mortality-rate-infant-per-1000-live-births". El cual indica la tasa de mortalidad de recien nacidos por cada 1000 nacimientos. De este se extrajo el conjunto de datos para el pais Costa Rica, para esto se utilizaron algunas instrucciones de pandas que permitieron organizar los datos.
+Se obtuvo en conjunto de datos, en este caso se hizo analisis del que lleva el titulo "mortality-rate-infant-per-1000-live-births". El cual indica la tasa de mortalidad de recien nacidos por cada 1000 nacimientos. De este se extrajo el conjunto de datos para el pais Costa Rica, para esto se utilizaron algunas instrucciones de pandas que permitieron organizar los datos con especial enfasis en las siguientes:
+
+```"bash"
+data = data.drop(['Country Code','Indicator Name','Indicator Code'], axis=1)
+
+data = data.transpose()
+
+data = data.reset_index()
+
+data.columns= ['Anho', 'Cantidad']
+```
+Estas permitieron borrar las columnas no necesarias, permitiendo el enfoque en el anho y el numero de muertes asociado. Se hizo un transpose del dataframe y se agregaron los indices de este.
 
 A partir de la libreria matplot se obtuvo la siguiente grafica de cantidad vs anho:
 
@@ -27,7 +38,7 @@ A partir de la figura anterior se evidencia que la inercia decae en el valor k =
 
 Una vez definido el numero de clusters es posible aplicar el metodo de K-means para el analisis por conjuntos de los datos:
 
-![Download-Try](Kmeans.PNG)
+![Kmeans](figures/Kmeans.PNG)
 
 A partir de esta grafica se evidencia una gran diferencia entre estos tres grupos, siendo los primeros anhos los que mas mortalidad en recien nacidos se tuvieron, decayendo conforme el paso de los anhos hasta la actualidad.
 
