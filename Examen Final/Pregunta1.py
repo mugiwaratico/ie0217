@@ -5,12 +5,12 @@ class Datos:
 
     def procesa_datos(self):
         print("Realizando procesamiento de datos")
-        # Código para preprocesar los datos
+        # Código ejemplo para procesar los datos
 
 class DatasetCSV(Datos):
     def carga_datos(self, file_path):
         super().carga_datos(file_path)  # Llamada del metodo carga_datas de la clase padre
-        # Código adicional para leer el archivo CSV
+
 
 
 # Ejemplo de uso. En este caso se hereda de la clase Datos a la clase DatasetCSV, se prueba utilizando el metodo carga_datos desde la clase hija
