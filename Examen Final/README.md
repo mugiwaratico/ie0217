@@ -113,27 +113,129 @@ with open("archivo.txt", "r") as archivo:
 
 ### 5. Utilizando el conjunto de datos proporcionado (guardado en 'conjunto_datos.csv'), cargue los datos en un DataFrame de pandas. Muestre cómo seleccionar solo las filas donde la edad es mayor a 30.
 
-
+A continuacion se muestra el codigo que realiza el filtro solicitado
 
 
 ```"python"
+import pandas as pd
+
+# Cargo el archivo en df
+df = pd.read_csv('conjunto_datos12071959.csv')
+
+# Filtro las columnas con la edad nayor a 30 con el metodo loc
+df_filtrado = df.loc[df['Edad'] > 30]
+
+# Y puedo probarlo imprimiento el conjunto de datos filtrado
+print(df_filtrado)
 
 ```
 
 ### 6. Utilizando el conjunto de datos, cree un gráfico de dispersión que represente la relación entre la altura y el peso de los individuos.
 
-```"python"
+Por medio de la libreria malplotlib utilizo la funcion scatter que permite realizar el grafico de dispersion. A continuacion se muestra la implementacion:
 
+```"python"
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+# Cargo los datos
+df = pd.read_csv('conjunto_datos12071959.csv')
+
+# Por medio de scatter de la lib matplotlib creo el grafico de dispersion
+plt.scatter(df['Altura'], df['Peso'])
+plt.xlabel('Altura')
+plt.ylabel('Peso')
+plt.title('Relación entre altura y peso')
+plt.show()
 ```
 
 ### 7. Explique en qué situaciones se podría utilizar una regresión lineal y proporcione un ejemplo práctico relacionado con el conjunto de datos.
 
+La regresion lineal es util en caso donde se requiere modelar la relacion entre una variable dependiente con respecto a una o mas variables independiente. Sirve para hacer estimaciones del valor de la variable dependiente en funcion de las independientes.
+
+Con base al conjunto de datos se puede implementar este tipo de modelo para, por ejemplo, predecir el peso en funcio de la edad y la altura:
+
 ```"python"
+
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv('conjunto_datos12071959.csv')
+
+# Defino las variables independientes (edad y altura) y la variable dependiente (peso)
+X = df[['Edad', 'Altura']]
+y = df['Peso']
+
+# Creo un objeto de regresión lineal
+regresion = LinearRegression()
+
+# Ajusto el modelo a los datos
+regresion.fit(X, y)
+
+# Prediccion del peso para una nueva persona
+nueva_persona = [[27, 174]]
+peso_predicho = regresion.predict(nueva_persona)
+
+print("El peso estimado es:", peso_predicho)
 
 ```
 
 ### 8. Describa el concepto de clustering y proporcione un ejemplo práctico de cómo se podría aplicar al conjunto de datos para identificar grupos de personas.
 
-```"python"
+El clustering es un método de aprendizaje no supervisado que se utiliza para agrupar objetos o individuos similares en función de sus características. El objetivo del clustering es encontrar patrones y estructuras ocultas en los datos sin tener información previa sobre las categorías o grupos a los que pertenecen los objetos. En el contexto de un conjunto de datos con encabezados de Edad, Altura, Peso, ManoDominante y Género, el clustering se puede utilizar para identificar grupos o segmentos de personas que comparten características similares.
 
+Para implementar este metodo, primeramente se debe determinar el numero de cluster optimo, para esto se puede utilzar el metodo del codo, el cual indica que el numero de cluster optimo es de 5. Una vez definido esto se implementa el clustering, a continuacion se puede observar el codigo:
+
+
+```"python"
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.linear_model import LinearRegression
+from sklearn import datasets, linear_model
+
+
+# Cargo los datos
+df = pd.read_csv('conjunto_datos12071959.csv')
+
+# Definir las variables para el clustering (Edad, Altura, Peso)
+X = df[['Edad', 'Altura', 'Peso']]
+
+# Seleccion numero de clusters
+
+inertia = []
+for k in range(1,11):
+    kmeans = KMeans(n_clusters=k, random_state = 42)
+    kmeans.fit(X)
+    inertia.append(kmeans.inertia_)
+
+# Grafica metodo del codo
+
+plt.plot(range(1,11), inertia, marker = 'o')
+plt.title("Metodo del codo para seleccion de k")
+plt.xlabel('Numero de Clusters (k)')
+plt.ylabel('Inercia')
+plt.show()
+
+# Creacion objeto de clustering K-means
+kmeans = KMeans(n_clusters=5)
+
+# Ajuste del modelo a los datos
+kmeans.fit(X)
+
+# Obtencion de etiquetas de los clusters
+labels = kmeans.labels_
+
+# Agregar las etiquetas de los clusters al DataFrame original
+df['Cluster'] = labels
+
+# Grafico con grafico de dispersion para ver los cluster
+plt.scatter(df['Edad'], df['Altura'], c=df['Cluster'], cmap='viridis')
+plt.xlabel('Edad')
+plt.ylabel('Altura')
+plt.title('Gráfico de dispersión de los clusters')
+plt.show()
 ```
